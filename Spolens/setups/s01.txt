@@ -1,0 +1,25 @@
+P frontDownLeft 300 300 300
+P frontDownRight 600 300 300
+P frontUpLeft 300 600 300
+P frontUpRight 600 600 300
+
+P backDownLeft 300 300 400
+P backDownRight 600 300 400
+P backUpLeft 300 600 400
+P backUpRight 600 600 400
+
+C frontDownLeft frontDownRight 1 0 0 1
+C frontDownLeft frontUpLeft 1 0 0 1
+C frontDownLeft backDownLeft 1 1 1 1
+
+C frontUpRight frontUpLeft 1 0 0 1
+C frontUpRight frontDownRight 1 0 0 1
+C frontUpRight backUpRight 1 1 1 1
+
+C backDownRight backDownLeft 1 1 1 1
+C backDownRight backUpRight 1 1 1 1
+C backDownRight frontDownRight 1 1 1 1
+
+C backUpLeft backUpRight 1 1 1 1
+C backUpLeft backDownLeft 1 1 1 1
+C backUpLeft frontUpLeft 1 1 1 1
