@@ -1,3 +1,6 @@
+# 'P' stands for point
+# 'C' stands for connections
+
 P frontDownLeft 300 300 300
 P frontDownRight 600 300 300
 P frontUpLeft 300 600 300

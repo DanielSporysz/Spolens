@@ -1,14 +1,13 @@
 import pyglet
 from pyglet.gl import *
-from cfgreader import load_objects_configuration
 from setups import read_setup
 import numpy as np
 import math
 from structures import Point
 from structures import Line
 
-WIDTH = 800
-HEIGHT = 800
+WIDTH = 600
+HEIGHT = 600
 
 SCREEN_DISTANCE = 100
 
