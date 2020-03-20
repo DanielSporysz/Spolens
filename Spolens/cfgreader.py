@@ -4,7 +4,7 @@ import re
 def cast_coordinates_to_float(coordinates):
     casted = []
     for element in coordinates:
-        casted.append(float(element)/10)
+        casted.append(float(element)/1000)
     return casted
 
 
