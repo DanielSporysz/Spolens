@@ -1,15 +1,15 @@
 # 'P' stands for point
 # 'C' stands for connections
 
-P frontDownLeft 300 300 600
-P frontDownRight 600 300 600
-P frontUpLeft 300 600 600
-P frontUpRight 600 600 600
+P frontDownLeft 30 30 60
+P frontDownRight 60 30 60
+P frontUpLeft 30 60 60
+P frontUpRight 60 60 60
 
-P backDownLeft 300 300 700
-P backDownRight 600 300 700
-P backUpLeft 300 600 700
-P backUpRight 600 600 700
+P backDownLeft 30 30 90
+P backDownRight 60 30 90
+P backUpLeft 30 60 90
+P backUpRight 60 60 90
 
 C frontDownLeft frontDownRight 1 0 0 1
 C frontDownLeft frontUpLeft 1 0 0 1

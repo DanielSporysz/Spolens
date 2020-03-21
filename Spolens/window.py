@@ -10,6 +10,9 @@ class SpolensWindow(pyglet.window.Window):
     def __init__(self, width, height, title, distance_to_screen, lines):
         self.distance_to_screen = distance_to_screen
         self.lines = lines
+        self.step = 10
+        self.slow_step = 2
+        self.r_step = 1
         super().__init__(width, height, title)
 
     def on_draw(self):
@@ -20,16 +23,23 @@ class SpolensWindow(pyglet.window.Window):
         for line in screen_lines:
             self.draw_line(line.start, line.end, line.color)
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.A:
-            self.lines = translate_lines(self.lines, -100, 0, 0)
-            self.on_draw()
-        elif symbol == key.D:
-            self.lines = translate_lines(self.lines, 100, 0, 0)
-        elif symbol == key.W:
-            self.lines = translate_lines(self.lines, 0, 100, 0)
-        elif symbol == key.S:
-            self.lines = translate_lines(self.lines, 0, -100, 0)
+    def on_text(self, text):
+        if text == 'a':
+            self.lines = translate_lines(self.lines, -self.step, 0, 0)
+        elif text == 'd':
+            self.lines = translate_lines(self.lines, self.step, 0, 0)
+        elif text == 'w':
+            self.lines = translate_lines(self.lines, 0, self.step, 0)
+        elif text == 's':
+            self.lines = translate_lines(self.lines, 0, -self.step, 0)
+        elif text == 'q':
+            self.lines = translate_lines(self.lines, 0, 0, self.slow_step)
+        elif text == 'e':
+            self.lines = translate_lines(self.lines, 0, 0, -self.slow_step)
+        elif text == 'r':
+            self.lines = rotate_lines(self.lines, self.r_step, "x")
+
+        self.on_draw()
 
     def draw_line(self, start: Point, end: Point, color: list):
         glBegin(GL_LINES)
