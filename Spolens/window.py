@@ -12,7 +12,7 @@ class SpolensWindow(pyglet.window.Window):
 
         self.distance_to_screen = distance_to_screen
 
-        self.step = 10
+        self.step = 2
         self.slow_step = 2
         self.r_step = 1
         self.d_step = 10

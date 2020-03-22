@@ -4,6 +4,9 @@ class Point:
         self.y = y
         self.z = z
 
+    def __str__(self):
+        return "(" + str(self.x) + ", " + str(self.y) + ", " + str(self.y) + ")"
+
 
 class Line:
     def __init__(self, start: Point, end: Point, color: list):
@@ -13,3 +16,6 @@ class Line:
 
     def get_points(self):
         return [self.start, self.end]
+
+    def __str__(self):
+        return "{" + str(self.start) + "->" + str(self.end) + "}"

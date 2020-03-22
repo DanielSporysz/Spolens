@@ -5,10 +5,26 @@ import math
 
 
 def cast_lines_on_screen(lines, width, height, distance_to_screen):
+    plane_point1 = Point(20, 2, 1)
+    plane_point2 = Point(1, 1, 1)
+    plane_point3 = Point(2, 30, 1)
+    # plane_params = get_plane_parameters(
+    #     plane_point1, plane_point2, plane_point3)
+    plane_points = [plane_point1, plane_point2, plane_point3]
+    # print(plane_params, flush=True)
+
     screen_lines = []
     for line in lines:
+        line_to_draw = line
+        # skip lines that are behind the camera
+        if (line.start.z <= 0 and line.end.z <= 0):
+            continue
+        # clip lines that go thru the screen
+        elif ((line.start.z <= 0 and line.end.z > 0) or (line.start.z > 0 and line.end.z <= 0)):
+            line_to_draw = clip_line(line, plane_points)
+
         points = []
-        for point in line.get_points():
+        for point in line_to_draw.get_points():
             s_point = cast_point_on_screen(
                 point, width, height, distance_to_screen)
             points.append(s_point)
@@ -84,3 +100,69 @@ def get_rotation_matrix(angle, axis):
         ])
     else:
         raise Exception("Unknown axis: " + axis)
+
+
+def clip_line(line: Line, plane_points: list):
+    p0 = np.array([plane_points[0].x, plane_points[0].y, plane_points[0].z])
+    p1 = np.array([plane_points[1].x, plane_points[1].y, plane_points[1].z])
+    p2 = np.array([plane_points[2].x, plane_points[2].y, plane_points[2].z])
+
+    p01 = p1 - p0
+    p02 = p2 - p0
+
+    la = np.array([line.start.x, line.start.y, line.start.z])
+    lb = np.array([line.end.x, line.end.y, line.end.z])
+    lab = lb - la
+
+    t = (p01.dot(p02) * (la - p0)) / (-lab * p01.dot(p02))
+    # print("Starting point, vector, t")
+    # print(str(la))
+    # print(str(lab))
+    # print(str(t), flush=True)
+
+    clipped_point = la + lab.dot(t[2])
+
+    if la[2] < p0[2]:
+        clip_to = lb
+    else:
+        clip_to = la
+
+    new_start = Point(clipped_point[0], clipped_point[1], clipped_point[2])
+    new_end = Point(clip_to[0], clip_to[1], clip_to[2])
+
+    return Line(new_start, new_end, line.color)
+
+
+def get_plane_parameters(p1: Point, p2: Point, p3: Point):
+    # args check
+    D = np.array([
+        [p1.x, p1.y, p1.z],
+        [p2.x, p2.y, p2.z],
+        [p3.x, p3.y, p3.z]
+    ])
+    D = np.linalg.det(D)
+    if(D == 0):
+        raise Exception("Cannot determine a plane with given points!")
+
+    d = 5
+    ceo = - d / D
+
+    a = ceo * np.linalg.det(np.array([
+        [1, p1.y, p1.z],
+        [1, p2.y, p2.z],
+        [1, p3.y, p3.z]
+    ]))
+
+    b = ceo * np.linalg.det(np.array([
+        [p1.x, 1, p1.z],
+        [p2.x, 1, p2.z],
+        [p3.x, 1, p3.z]
+    ]))
+
+    c = ceo * np.linalg.det(np.array([
+        [p1.x, p1.y, 1],
+        [p2.x, p2.y, 1],
+        [p3.x, p3.y, 1]
+    ]))
+
+    return [a, b, c, d]
