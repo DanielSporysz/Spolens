@@ -11,11 +11,13 @@ class SpolensWindow(pyglet.window.Window):
         self.lines = lines
 
         self.distance_to_screen = distance_to_screen
+        self.clipping_distance = 1
 
         self.step = 2
         self.slow_step = 2
         self.r_step = 1
         self.d_step = 10
+        self.clipping_step = 1
 
         self.font_size = 20
         self.controls_labelWS = pyglet.text.Label(
@@ -32,6 +34,8 @@ class SpolensWindow(pyglet.window.Window):
             'RY - rOZ', x=0, y=height-6*self.font_size)
         self.controls_labelZoom = pyglet.text.Label(
             'ZX - Zoom', x=0, y=height-7*self.font_size)
+        self.controls_labelClipping = pyglet.text.Label(
+            'CV - Clipping', x=0, y=height-8*self.font_size)
 
         super().__init__(width, height, title)
 
@@ -39,7 +43,7 @@ class SpolensWindow(pyglet.window.Window):
         self.clear()
 
         screen_lines = cast_lines_on_screen(
-            self.lines, self.width, self.height, self.distance_to_screen)
+            self.lines, self.width, self.height, self.distance_to_screen, self.clipping_distance)
         for line in screen_lines:
             self.draw_line(line.start, line.end, line.color)
 
@@ -51,10 +55,13 @@ class SpolensWindow(pyglet.window.Window):
         self.controls_labelFH.draw()
         self.controls_labelRY.draw()
         self.controls_labelZoom.draw()
+        self.controls_labelClipping.draw()
 
         # display parameters
         pyglet.text.Label(
-            'd = ' + str(self.distance_to_screen), x=0, y=0).draw()
+            'clipping distance = ' + str(self.clipping_distance), x=0, y=0).draw()
+        pyglet.text.Label(
+            'zoom = ' + str(self.distance_to_screen), x=0, y=self.font_size).draw()
 
     def on_text(self, text):
         # OX
@@ -94,6 +101,13 @@ class SpolensWindow(pyglet.window.Window):
                 self.distance_to_screen = 10
         elif text == 'x':
             self.distance_to_screen += self.d_step
+        # clipping distance
+        elif text == 'c':
+            self.clipping_distance -= self.clipping_step
+            if self.clipping_distance < 1:
+                self.clipping_distance = 1
+        elif text == 'v':
+            self.clipping_distance += self.clipping_step
 
         self.on_draw()
 

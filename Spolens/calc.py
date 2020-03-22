@@ -4,21 +4,21 @@ import numpy as np
 import math
 
 
-def cast_lines_on_screen(lines, width, height, distance_to_screen):
-    plane_point1 = Point(20, 2, 1)
-    plane_point2 = Point(1, 1, 1)
-    plane_point3 = Point(2, 30, 1)
+def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_distance):
+    # clipping plane
+    plane_point1 = Point(20, 2, clipping_distance)
+    plane_point2 = Point(1, 1, clipping_distance)
+    plane_point3 = Point(2, 30, clipping_distance)
     plane_points = [plane_point1, plane_point2, plane_point3]
 
     screen_lines = []
     for line in lines:
         line_to_draw = line
-        # skip lines that are behind the camera
-        if (line.start.z <= 0 and line.end.z <= 0):
+        # skip lines that are behind the clipping distance
+        if (line.start.z <= clipping_distance and line.end.z <= clipping_distance):
             continue
-        # clip lines that go thru the screen
-        elif ((line.start.z <= 0 and line.end.z > 0) or (line.start.z > 0 and line.end.z <= 0)):
-            line_to_draw = clip_line(line, plane_points)
+        # clip lines that go through the screen if needed
+        line_to_draw = clip_line(line, plane_points)
 
         points = []
         for point in line_to_draw.get_points():
@@ -37,7 +37,8 @@ def cast_point_on_screen(point, width, height, distance_to_screen):
         x = point.x * distance_to_screen / point.z + width / 2
         y = point.y * distance_to_screen / point.z + height / 2
         return Point(x, y, 1)
-    except:
+    except Exception as e:
+        print(e, flush=True)
         return Point(width/2, height/2, 1)
 
 
