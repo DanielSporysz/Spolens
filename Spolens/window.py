@@ -31,7 +31,7 @@ class SpolensWindow(pyglet.window.Window):
         self.controls_labelRY = pyglet.text.Label(
             'RY - rOZ', x=0, y=height-6*self.font_size)
         self.controls_labelZoom = pyglet.text.Label(
-            'ZX - rOZ', x=0, y=height-7*self.font_size)
+            'ZX - Zoom', x=0, y=height-7*self.font_size)
 
         super().__init__(width, height, title)
 
