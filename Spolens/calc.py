@@ -43,6 +43,7 @@ def translate_lines(lines, x, y, z):
 
 
 def rotate_lines(lines, angle, axis):
+    angle = angle*math.pi/180
     rotation_matrix = get_rotation_matrix(angle, axis)
 
     new_lines = []
@@ -64,7 +65,7 @@ def get_rotation_matrix(angle, axis):
         return np.array([
             [1, 0, 0, 0],
             [0, math.cos(angle), -math.sin(angle), 0],
-            [0, math.sin(angle), math.sin(angle), 0],
+            [0, math.sin(angle), math.cos(angle), 0],
             [0, 0, 0, 1]
         ])
     elif(axis == "y"):
