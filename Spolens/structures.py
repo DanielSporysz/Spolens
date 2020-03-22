@@ -4,6 +4,7 @@ class Point:
         self.y = y
         self.z = z
 
+
 class Line:
     def __init__(self, start: Point, end: Point, color: list):
         self.start = start

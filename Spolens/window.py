@@ -6,11 +6,11 @@ from structures import Line
 from calc import *
 
 
-
 class SpolensWindow(pyglet.window.Window):
     def __init__(self, width, height, title, distance_to_screen, lines):
-        self.distance_to_screen = distance_to_screen
         self.lines = lines
+
+        self.distance_to_screen = distance_to_screen
 
         self.step = 10
         self.slow_step = 2
