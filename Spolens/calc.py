@@ -8,10 +8,7 @@ def cast_lines_on_screen(lines, width, height, distance_to_screen):
     plane_point1 = Point(20, 2, 1)
     plane_point2 = Point(1, 1, 1)
     plane_point3 = Point(2, 30, 1)
-    # plane_params = get_plane_parameters(
-    #     plane_point1, plane_point2, plane_point3)
     plane_points = [plane_point1, plane_point2, plane_point3]
-    # print(plane_params, flush=True)
 
     screen_lines = []
     for line in lines:
@@ -103,6 +100,12 @@ def get_rotation_matrix(angle, axis):
 
 
 def clip_line(line: Line, plane_points: list):
+    # check if the line has clipping point
+    clipping_z = plane_points[0].z
+    if (line.start.z < clipping_z and line.end.z < clipping_z
+            or line.start.z > clipping_z and line.end.z > clipping_z):
+        return line
+
     p0 = np.array([plane_points[0].x, plane_points[0].y, plane_points[0].z])
     p1 = np.array([plane_points[1].x, plane_points[1].y, plane_points[1].z])
     p2 = np.array([plane_points[2].x, plane_points[2].y, plane_points[2].z])
@@ -114,26 +117,22 @@ def clip_line(line: Line, plane_points: list):
     lb = np.array([line.end.x, line.end.y, line.end.z])
     lab = lb - la
 
-    t = (p01.dot(p02) * (la - p0)) / (-lab * p01.dot(p02))
-    # print("Starting point, vector, t")
-    # print(str(la))
-    # print(str(lab))
-    # print(str(t), flush=True)
-
-    clipped_point = la + lab.dot(t[2])
-
-    if la[2] < p0[2]:
-        clip_to = lb
+    # evaluate the point that is still visible
+    if line.start.z < p0[2]:
+        visible_point = line.end
     else:
-        clip_to = la
+        visible_point = line.start
 
-    new_start = Point(clipped_point[0], clipped_point[1], clipped_point[2])
-    new_end = Point(clip_to[0], clip_to[1], clip_to[2])
+    # calculate clipping point
+    t = (p01.dot(p02) * (la - p0)) / (-lab * p01.dot(p02))
+    clipping_point = la + lab.dot(t[2])
+    clipping_point = Point(
+        clipping_point[0], clipping_point[1], clipping_point[2])
 
-    return Line(new_start, new_end, line.color)
+    return Line(clipping_point, visible_point, line.color)
 
 
-def get_plane_parameters(p1: Point, p2: Point, p3: Point):
+def get_plane_parameters(p1: Point, p2: Point, p3: Point):  # currently unused
     # args check
     D = np.array([
         [p1.x, p1.y, p1.z],
