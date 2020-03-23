@@ -5,7 +5,7 @@ class Point:
         self.z = z
 
     def __str__(self):
-        return "(" + str(self.x) + ", " + str(self.y) + ", " + str(self.y) + ")"
+        return "(" + str(self.x) + ", " + str(self.y) + ", " + str(self.z) + ")"
 
 
 class Line:
@@ -18,4 +18,4 @@ class Line:
         return [self.start, self.end]
 
     def __str__(self):
-        return "{" + str(self.start) + "->" + str(self.end) + "}"
+        return "{" + str(self.start) + "->" + str(self.end) + " of color " + str(self.color) + "}"

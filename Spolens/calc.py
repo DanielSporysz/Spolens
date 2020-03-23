@@ -3,6 +3,8 @@ from structures import Line
 import numpy as np
 import math
 
+TOLERANCE = 1e-5
+
 
 def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_distance):
     # clipping plane
@@ -119,7 +121,7 @@ def clip_line(line: Line, plane_points: list):
     lab = lb - la
 
     # evaluate the point that is still visible
-    if line.start.z < p0[2]:
+    if line.start.z < p0[2] or np.isclose(line.start.z, p0[2]):
         visible_point = line.end
     else:
         visible_point = line.start
