@@ -26,3 +26,10 @@ C backDownRight frontDownRight 0 1 0 1
 C backUpLeft backUpRight 1 1 1 1
 C backUpLeft backDownLeft 1 1 1 1
 C backUpLeft frontUpLeft 0 1 0 1
+
+P top 45 75 75
+
+C frontUpLeft top 1 1 1 1
+C frontUpRight top 1 1 1 1
+C backUpLeft top 1 1 1 1
+C backUpRight top 1 1 1 1

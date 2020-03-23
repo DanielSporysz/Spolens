@@ -16,10 +16,10 @@ def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_dist
     screen_lines = []
     for line in lines:
         line_to_draw = line
-        # skip lines that are behind the clipping distance
+        # skip lines that are behind the clipping plane
         if (line.start.z <= clipping_distance and line.end.z <= clipping_distance):
             continue
-        # clip lines that go through the screen if needed
+        # clip lines that go through the clipping plane if needed
         line_to_draw = clip_line(line, plane_points)
 
         points = []
