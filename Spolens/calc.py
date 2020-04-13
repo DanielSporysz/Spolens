@@ -73,6 +73,7 @@ def cast_point_on_screen(point, width, height, distance_to_screen):
 def translate_lines(lines, x, y, z):
     new_lines = []
     for line in lines:
+
         points = []
         for point in line.get_points():
             new_point = Point(point.x + x, point.y+y, point.z+z)
@@ -82,6 +83,37 @@ def translate_lines(lines, x, y, z):
             Line(points[0], points[1], line.color))
 
     return new_lines
+
+
+def translate_planes(planes, x, y, z):
+    new_planes = []
+    for plane in planes:
+
+        points = []
+        for point in plane.points:
+            new_point = Point(point.x + x, point.y+y, point.z+z)
+            points.append(new_point)
+
+        new_planes.append(Plane(points, plane.color))
+
+    return new_planes
+
+
+def rotate_planes(planes, angle, axis):
+    angle = angle*math.pi/180
+    rotation_matrix = get_rotation_matrix(angle, axis)
+
+    new_planes = []
+    for plane in planes:
+        points = []
+        for point in plane.points:
+            new_point = np.dot(rotation_matrix, [point.x, point.y, point.z, 1])
+            new_point = Point(new_point[0], new_point[1], new_point[2])
+            points.append(new_point)
+
+        new_planes.append(Plane(points, plane.color))
+
+    return new_planes
 
 
 def rotate_lines(lines, angle, axis):

@@ -77,18 +77,24 @@ class SpolensWindow(pyglet.window.Window):
         # OX
         if text == 'a':
             self.lines = translate_lines(self.lines, -self.step, 0, 0)
+            self.planes = translate_planes(self.planes, -self.step, 0, 0)
         elif text == 'd':
             self.lines = translate_lines(self.lines, self.step, 0, 0)
+            self.planes = translate_planes(self.planes, self.step, 0, 0)
         # OY
         elif text == 'w':
             self.lines = translate_lines(self.lines, 0, self.step, 0)
+            self.planes = translate_planes(self.planes, 0, self.step, 0)
         elif text == 's':
             self.lines = translate_lines(self.lines, 0, -self.step, 0)
+            self.planes = translate_planes(self.planes, 0, -self.step, 0)
         # OZ
         elif text == 'q':
             self.lines = translate_lines(self.lines, 0, 0, self.slow_step)
+            self.planes = translate_planes(self.planes, 0, 0, self.slow_step)
         elif text == 'e':
             self.lines = translate_lines(self.lines, 0, 0, -self.slow_step)
+            self.planes = translate_planes(self.planes, 0, 0, -self.slow_step)
         # rOX
         elif text == 't':
             self.lines = rotate_lines(self.lines, -self.r_step, "x")
