@@ -98,18 +98,24 @@ class SpolensWindow(pyglet.window.Window):
         # rOX
         elif text == 't':
             self.lines = rotate_lines(self.lines, -self.r_step, "x")
+            self.planes = rotate_planes(self.planes, -self.r_step, "x")
         elif text == 'g':
             self.lines = rotate_lines(self.lines, self.r_step, "x")
+            self.planes = rotate_planes(self.planes, self.r_step, "x")
         # rOY
         elif text == 'f':
             self.lines = rotate_lines(self.lines, -self.r_step, "y")
+            self.planes = rotate_planes(self.planes, -self.r_step, "y")
         elif text == 'h':
             self.lines = rotate_lines(self.lines, self.r_step, "y")
+            self.planes = rotate_planes(self.planes, self.r_step, "y")
         # rOY
         elif text == 'r':
             self.lines = rotate_lines(self.lines, self.r_step, "z")
+            self.planes = rotate_planes(self.planes, self.r_step, "z")
         elif text == 'y':
             self.lines = rotate_lines(self.lines, -self.r_step, "z")
+            self.planes = rotate_planes(self.planes, -self.r_step, "z")
         # zoom
         elif text == 'z':
             self.distance_to_screen -= self.d_step
