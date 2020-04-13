@@ -36,7 +36,13 @@ def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_dist
     return screen_lines
 
 
-def cast_planes_on_screen(planes, width, height, distance_to_screen):
+def cast_planes_on_screen(planes, width, height, distance_to_screen, clipping_distance):
+    # clipping plane
+    plane_point1 = Point(20, 2, clipping_distance)
+    plane_point2 = Point(1, 1, clipping_distance)
+    plane_point3 = Point(2, 30, clipping_distance)
+    plane_points = [plane_point1, plane_point2, plane_point3]
+
     # return in correct render order
     cpy_planes = planes.copy()
     cpy_planes.sort()
@@ -45,18 +51,34 @@ def cast_planes_on_screen(planes, width, height, distance_to_screen):
     for plane in cpy_planes:
 
         points = []
-        should_skip = False
-        for point in plane.points:
-            # skip planes that clip thru clipping plane
-            if point.z < 1:
-                should_skip = True
-                break
+        for idx, point in enumerate(plane.points):
+            if point.z <= clipping_distance:
+                # for idy, y_point in enumerate(plane.points):
+                #     if idy != idx and y_point.z > clipping_distance:
+                previousp = plane.points[idx - 1]
+                nextp = plane.points[(idx + 1)%len(plane.points)]
+
+                if previousp.z > clipping_distance:
+                    cline = clip_line(
+                        Line(point, previousp, plane.color), plane_points)
+                    s_point = cast_point_on_screen(
+                        cline.start, width, height, distance_to_screen)
+                    points.append(s_point)
+
+                if nextp.z > clipping_distance:
+                    cline = clip_line(
+                        Line(point, nextp, plane.color), plane_points)
+                    s_point = cast_point_on_screen(
+                        cline.start, width, height, distance_to_screen)
+                    points.append(s_point)
+
+                continue
 
             s_point = cast_point_on_screen(
                 point, width, height, distance_to_screen)
             points.append(s_point)
 
-        if should_skip:
+        if len(points) == 0:
             continue
 
         screen_planes.append(Plane(points, plane.color))
