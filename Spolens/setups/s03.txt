@@ -33,3 +33,5 @@ C frontUpLeft top 1 1 1 1
 C frontUpRight top 1 1 1 1
 C backUpLeft top 1 1 1 1
 C backUpRight top 1 1 1 1
+
+O frontDownLeft frontUpLeft backUpLeft backDownLeft 1 1 1 1

@@ -3,12 +3,14 @@ from pyglet.gl import *
 from pyglet.window import key
 from structures import Point
 from structures import Line
+from structures import Plane
 from calc import *
 
 
 class SpolensWindow(pyglet.window.Window):
-    def __init__(self, width, height, title, lines):
+    def __init__(self, width, height, title, lines, planes):
         self.lines = lines
+        self.planes = planes
 
         self.distance_to_screen = 200
         self.clipping_distance = 1
@@ -49,8 +51,11 @@ class SpolensWindow(pyglet.window.Window):
             self.draw_line(line.start, line.end, line.color)
 
         # draw planes
-        plane = [Point(100, 100, 1), Point(200, 100, 1), Point(200, 200, 1), Point(150, 190, 1)]
-        self.draw_plane(plane, [1, 1, 1, 1])
+        # plane = [Point(100, 100, 1), Point(200, 100, 1), Point(200, 200, 1), Point(150, 190, 1)]
+        screen_planes = cast_planes_on_screen(
+            self.planes, self.width, self.height, self.distance_to_screen)
+        for plane in screen_planes:
+            self.draw_plane(plane)
 
         # display controls help
         self.controls_labelAD.draw()
@@ -123,9 +128,10 @@ class SpolensWindow(pyglet.window.Window):
         glVertex3f(end.x, end.y, end.z)
         glEnd()
 
-    def draw_plane(self, plane_points, color: list):
+    def draw_plane(self, plane: Plane):
         glBegin(GL_POLYGON)
+        color = plane.color
         glColor4f(color[0], color[1], color[2], color[3])
-        for point in plane_points:
+        for point in plane.points:
             glVertex3f(point.x, point.y, point.z)
         glEnd()

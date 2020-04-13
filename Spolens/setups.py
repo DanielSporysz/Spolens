@@ -1,12 +1,14 @@
 import re
 from structures import Point
 from structures import Line
+from structures import Plane
 
 
 def read_setup(fname):
     f = open(fname, "r")
     if f.mode == 'r':
         lines = []
+        planes = []
 
         points = {}
         for idx, file_line in enumerate(f.readlines()):
@@ -44,6 +46,26 @@ def read_setup(fname):
                 line = Line(points[point_ids[0]], points[point_ids[1]], color)
                 lines.append(line)
 
-        return lines
+            # Lines starting with C define a connection
+            # e.g. 'O frontDownLeft frontUpLeft backUpLeft backDownLeft 1 1 1 1'
+            elif file_line[0] == 'O':
+                # validate line
+                if len(re.findall(r'O ([A-Za-z]+ )+(([-+]?(\d+\.?\d*)) ?){4}', file_line)) != 1:
+                    raise Exception(
+                        "Line " + idx + " has unsupported data format!")
+
+                # parse data
+                point_ids = re.findall(r'[A-Za-z]+', file_line)[1:]
+                color = re.findall(r'[-+]?\d+\.?\d*', file_line)
+                color = [float(i) for i in color]
+
+                # create plane
+                plane_points = []
+                for pid in point_ids:
+                    plane_points.append(points[pid])
+
+                planes.append(Plane(plane_points, color))
+
+        return lines, planes
     else:
         raise Exception("Couldn't read file: " + fname + "!")

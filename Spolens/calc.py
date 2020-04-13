@@ -1,5 +1,6 @@
 from structures import Point
 from structures import Line
+from structures import Plane
 import numpy as np
 import math
 
@@ -22,6 +23,7 @@ def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_dist
         # clip lines that go through the clipping plane if needed
         line_to_draw = clip_line(line, plane_points)
 
+        # cast
         points = []
         for point in line_to_draw.get_points():
             s_point = cast_point_on_screen(
@@ -32,6 +34,30 @@ def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_dist
             Line(points[0], points[1], line.color))
 
     return screen_lines
+
+
+def cast_planes_on_screen(planes, width, height, distance_to_screen):
+    screen_planes = []
+    for plane in planes:
+
+        points = []
+        should_skip = False
+        for point in plane.points:
+            # skip planes that clip thru clipping plane
+            if point.z < 1:
+                should_skip = True
+                break
+
+            s_point = cast_point_on_screen(
+                point, width, height, distance_to_screen)
+            points.append(s_point)
+
+        if should_skip:
+            continue
+
+        screen_planes.append(Plane(points, plane.color))
+
+    return screen_planes
 
 
 def cast_point_on_screen(point, width, height, distance_to_screen):
@@ -133,4 +159,3 @@ def clip_line(line: Line, plane_points: list):
         clipping_point[0], clipping_point[1], clipping_point[2])
 
     return Line(clipping_point, visible_point, line.color)
-
