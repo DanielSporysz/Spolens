@@ -7,10 +7,10 @@ from calc import *
 
 
 class SpolensWindow(pyglet.window.Window):
-    def __init__(self, width, height, title, distance_to_screen, lines):
+    def __init__(self, width, height, title, lines):
         self.lines = lines
 
-        self.distance_to_screen = distance_to_screen
+        self.distance_to_screen = 200
         self.clipping_distance = 1
 
         self.step = 2
@@ -42,10 +42,15 @@ class SpolensWindow(pyglet.window.Window):
     def on_draw(self):
         self.clear()
 
+        # draw lines
         screen_lines = cast_lines_on_screen(
             self.lines, self.width, self.height, self.distance_to_screen, self.clipping_distance)
         for line in screen_lines:
             self.draw_line(line.start, line.end, line.color)
+
+        # draw planes
+        plane = [Point(100, 100, 1), Point(200, 100, 1), Point(200, 200, 1), Point(150, 190, 1)]
+        self.draw_plane(plane, [1, 1, 1, 1])
 
         # display controls help
         self.controls_labelAD.draw()
@@ -116,4 +121,11 @@ class SpolensWindow(pyglet.window.Window):
         glColor4f(color[0], color[1], color[2], color[3])
         glVertex3f(start.x, start.y, start.z)
         glVertex3f(end.x, end.y, end.z)
+        glEnd()
+
+    def draw_plane(self, plane_points, color: list):
+        glBegin(GL_POLYGON)
+        glColor4f(color[0], color[1], color[2], color[3])
+        for point in plane_points:
+            glVertex3f(point.x, point.y, point.z)
         glEnd()

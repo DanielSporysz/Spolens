@@ -134,37 +134,3 @@ def clip_line(line: Line, plane_points: list):
 
     return Line(clipping_point, visible_point, line.color)
 
-
-def get_plane_parameters(p1: Point, p2: Point, p3: Point):  # currently unused
-    # args check
-    D = np.array([
-        [p1.x, p1.y, p1.z],
-        [p2.x, p2.y, p2.z],
-        [p3.x, p3.y, p3.z]
-    ])
-    D = np.linalg.det(D)
-    if(D == 0):
-        raise Exception("Cannot determine a plane with given points!")
-
-    d = 5
-    ceo = - d / D
-
-    a = ceo * np.linalg.det(np.array([
-        [1, p1.y, p1.z],
-        [1, p2.y, p2.z],
-        [1, p3.y, p3.z]
-    ]))
-
-    b = ceo * np.linalg.det(np.array([
-        [p1.x, 1, p1.z],
-        [p2.x, 1, p2.z],
-        [p3.x, 1, p3.z]
-    ]))
-
-    c = ceo * np.linalg.det(np.array([
-        [p1.x, p1.y, 1],
-        [p2.x, p2.y, 1],
-        [p3.x, p3.y, 1]
-    ]))
-
-    return [a, b, c, d]
