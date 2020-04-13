@@ -6,8 +6,6 @@ from structures import Line
 from structures import Plane
 from calc import *
 
-import traceback
-
 
 class SpolensWindow(pyglet.window.Window):
     def __init__(self, width, height, title, lines, planes):
@@ -53,13 +51,10 @@ class SpolensWindow(pyglet.window.Window):
             self.draw_line(line.start, line.end, line.color)
 
         # draw planes
-        try:
-            screen_planes = cast_planes_on_screen(
-                self.planes, self.width, self.height, self.distance_to_screen, self.clipping_distance)
-            for plane in screen_planes:
-                self.draw_plane(plane)
-        except:
-            traceback.print_exc()
+        screen_planes = cast_planes_on_screen(
+            self.planes, self.width, self.height, self.distance_to_screen, self.clipping_distance)
+        for plane in screen_planes:
+            self.draw_plane(plane)
 
         # display controls help
         self.controls_labelAD.draw()

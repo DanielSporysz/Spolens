@@ -51,9 +51,10 @@ O ofrontDownRight ofrontUpRight obackUpRight obackDownRight 1 1 1 1
 
 O ofrontDownLeft ofrontDownRight obackDownRight obackDownLeft 0 1 0 1
 
-ignoreO obackUpLeft obackUpRight obackDownRight obackDownLeft 1 0 0 1   
+O obackUpLeft obackUpRight obackDownRight obackDownLeft 1 0 0 1   
 O ofrontUpLeft ofrontUpRight ofrontDownRight ofrontDownLeft 1 0 0 1   
 
 O ofrontUpLeft obackUpLeft otop 0 1 0 1
 O ofrontUpRight obackUpRight otop 0 1 0 1
 O ofrontUpLeft ofrontUpRight otop 0 0 1 1
+O obackUpLeft obackUpRight otop 0 0 1 1

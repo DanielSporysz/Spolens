@@ -4,8 +4,6 @@ from structures import Plane
 import numpy as np
 import math
 
-TOLERANCE = 1e-5
-
 
 def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_distance):
     # clipping plane
@@ -52,12 +50,12 @@ def cast_planes_on_screen(planes, width, height, distance_to_screen, clipping_di
 
         points = []
         for idx, point in enumerate(plane.points):
+            # Find clipping
             if point.z <= clipping_distance:
-                # for idy, y_point in enumerate(plane.points):
-                #     if idy != idx and y_point.z > clipping_distance:
                 previousp = plane.points[idx - 1]
-                nextp = plane.points[(idx + 1)%len(plane.points)]
+                nextp = plane.points[(idx + 1) % len(plane.points)]
 
+                # clip to prevous
                 if previousp.z > clipping_distance:
                     cline = clip_line(
                         Line(point, previousp, plane.color), plane_points)
@@ -65,6 +63,7 @@ def cast_planes_on_screen(planes, width, height, distance_to_screen, clipping_di
                         cline.start, width, height, distance_to_screen)
                     points.append(s_point)
 
+                # clip to next
                 if nextp.z > clipping_distance:
                     cline = clip_line(
                         Line(point, nextp, plane.color), plane_points)
