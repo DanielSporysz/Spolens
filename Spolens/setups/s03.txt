@@ -34,4 +34,26 @@ C frontUpRight top 1 1 1 1
 C backUpLeft top 1 1 1 1
 C backUpRight top 1 1 1 1
 
-O frontDownLeft frontUpLeft backUpLeft backDownLeft 1 1 1 1
+P ofrontDownLeft -30 30 60
+P ofrontDownRight 0 30 60
+P ofrontUpLeft -30 60 60
+P ofrontUpRight 0 60 60
+
+P obackDownLeft -30 30 90
+P obackDownRight 0 30 90
+P obackUpLeft -30 60 90
+P obackUpRight 0 60 90
+
+P otop -15 75 75
+
+O ofrontDownLeft ofrontUpLeft obackUpLeft obackDownLeft 1 1 1 1
+O ofrontDownRight ofrontUpRight obackUpRight obackDownRight 1 1 1 1
+
+O ofrontDownLeft ofrontDownRight obackDownRight obackDownLeft 0 1 0 1
+
+ignoreO obackUpLeft obackUpRight obackDownRight obackDownLeft 1 0 0 1   
+O ofrontUpLeft ofrontUpRight ofrontDownRight ofrontDownLeft 1 0 0 1   
+
+O ofrontUpLeft obackUpLeft otop 0 1 0 1
+O ofrontUpRight obackUpRight otop 0 1 0 1
+O ofrontUpLeft ofrontUpRight otop 0 0 1 1

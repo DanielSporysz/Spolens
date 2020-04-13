@@ -37,8 +37,12 @@ def cast_lines_on_screen(lines, width, height, distance_to_screen, clipping_dist
 
 
 def cast_planes_on_screen(planes, width, height, distance_to_screen):
+    # return in correct render order
+    cpy_planes = planes.copy()
+    cpy_planes.sort()
+
     screen_planes = []
-    for plane in planes:
+    for plane in cpy_planes:
 
         points = []
         should_skip = False

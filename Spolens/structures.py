@@ -1,3 +1,5 @@
+import numpy as np
+
 class Point:
     def __init__(self, x, y, z):
         self.x = x
@@ -29,7 +31,7 @@ class Plane:
         self.color = color
 
     def getFarZ(self):
-        if len(self.points < 3):
+        if len(self.points) < 3:
             raise Exception("Illegal state. Plane has too few points!")
 
         furthest = self.points[0].z
@@ -38,8 +40,27 @@ class Plane:
                 furthest = point.z
         return furthest
 
+    def getDistanceToCenter(self):
+        avg_x = 0
+        avg_y = 0
+
+        for point in self.points:
+            avg_x += point.x
+            avg_y += point.y
+
+        avg_x = avg_x / len(self.points)
+        avg_y = avg_y / len(self.points)
+
+        return np.sqrt(avg_x**2 + avg_y**2)
+
     def __lt__(self, other):
-         return self.getFarZ() < other.getFarZ()
+        if np.isclose(self.getFarZ(), other.getFarZ()):
+            # print("distance compare")
+            # print(str(self.getDistanceToCenter()) + " to " + str(other.getDistanceToCenter()))
+            return self.getDistanceToCenter() > other.getDistanceToCenter()
+
+        # print("z compare")
+        return self.getFarZ() > other.getFarZ()
 
     def __str__(self):
         return "{" + str([str(i) for i in self.points]) + " of color " + str(self.color) + "}"

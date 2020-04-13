@@ -17,7 +17,7 @@ class SpolensWindow(pyglet.window.Window):
 
         self.step = 2
         self.slow_step = 2
-        self.r_step = 1
+        self.r_step = 10
         self.d_step = 10
         self.clipping_step = 1
 
@@ -51,7 +51,6 @@ class SpolensWindow(pyglet.window.Window):
             self.draw_line(line.start, line.end, line.color)
 
         # draw planes
-        # plane = [Point(100, 100, 1), Point(200, 100, 1), Point(200, 200, 1), Point(150, 190, 1)]
         screen_planes = cast_planes_on_screen(
             self.planes, self.width, self.height, self.distance_to_screen)
         for plane in screen_planes:
