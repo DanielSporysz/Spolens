@@ -43,6 +43,7 @@ class Plane:
     def getDistanceToCenter(self):
         avg_x = 0
         avg_y = 0
+        avg_z = 0
 
         for point in self.points:
             avg_x += point.x
@@ -50,8 +51,9 @@ class Plane:
 
         avg_x = avg_x / len(self.points)
         avg_y = avg_y / len(self.points)
+        avg_z = avg_z / len(self.points)
 
-        return np.sqrt(avg_x**2 + avg_y**2)
+        return np.sqrt(avg_x**2 + avg_y**2 + avg_z**2)
 
     def __lt__(self, other):
         if np.isclose(self.getFarZ(), other.getFarZ()):
